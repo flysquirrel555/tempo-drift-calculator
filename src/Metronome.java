@@ -36,7 +36,7 @@ public class Metronome {
                 String stepOne = String.valueOf(diff);
                 stepOne = stepOne.substring(6);
                 try {
-                    previous = whyMeLord(stepOne,previous);
+                    previous = timeKeeper(stepOne,previous);
                 } catch (IOException ex) {
                     ex.printStackTrace();
                 }
@@ -46,7 +46,7 @@ public class Metronome {
         }, 0, waitDuration, TimeUnit.MILLISECONDS);
 
     }
-    public static String whyMeLord(String time, String previous) throws FileNotFoundException {
+    public static String timeKeeper(String time, String previous) throws FileNotFoundException {
         previous = previous +"\n" + time;
         writeFile(previous);
         return previous;

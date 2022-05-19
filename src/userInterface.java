@@ -1,5 +1,6 @@
 import javax.sound.sampled.LineUnavailableException;
 import javax.swing.*;
+import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.MouseEvent;
@@ -7,13 +8,11 @@ import java.awt.event.MouseListener;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.PrintWriter;
-import java.awt.GridLayout;
-import java.awt.Color;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 
-public class full2 extends JPanel implements MouseListener {
-    static String previous = "";
+public class userInterface extends JPanel implements MouseListener {
+    static String previous = "000000";
     BlankArea blankArea;
 
     public void runner() throws IOException {
@@ -25,14 +24,20 @@ public class full2 extends JPanel implements MouseListener {
         startButton.setBounds(50, 150, 100, 30);
 
         myFrame.add(startButton);
+
         startButton.addActionListener(new ActionListener() {
-            @Override
+
             public void actionPerformed(ActionEvent e) {
                 try {
                     Metronome.play(100, 0, 400, 100);
                     startButton.removeActionListener(this);
                     myFrame.remove(startButton);
+                    JComponent newContentPane = new userInterface();
+                    newContentPane.setOpaque(true); //content panes must be opaque
+                    myFrame.setContentPane(newContentPane);
+                    myFrame.pack();
                     myFrame.repaint();
+
 
                 } catch (LineUnavailableException ex) {
                     ex.printStackTrace();
@@ -46,7 +51,7 @@ public class full2 extends JPanel implements MouseListener {
             public void windowClosing(WindowEvent event) {
                 myFrame.dispose();
                 try {
-                    main.sort();
+                    cleanData.sort();
                 } catch (FileNotFoundException fnfe) {
                     fnfe.printStackTrace();
                 }
@@ -58,24 +63,16 @@ public class full2 extends JPanel implements MouseListener {
 
     }
 
-    public full2() {
+    public userInterface() {
         blankArea = new BlankArea(Color.YELLOW);
         blankArea.addMouseListener(this);
         addMouseListener(this);
+        setPreferredSize(new Dimension(450, 450));
 
     }
 
     public void mouseClicked(MouseEvent e) {
-        long time = System.currentTimeMillis();
-        String stepOne = String.valueOf(time);
-        stepOne = stepOne.substring(6);
-        //eventOutput("Mouse pressed at " + time,e);
-        System.out.println("Mouse pressed at " + time);
-        try {
-            previous = timeKeeper(stepOne, previous);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
+
     }
 
     public String timeKeeper(String time, String previous) throws FileNotFoundException {
@@ -92,11 +89,20 @@ public class full2 extends JPanel implements MouseListener {
     }
 
     public void mousePressed(MouseEvent e) {
-        System.out.println("pressed");
+        long time = System.currentTimeMillis();
+        String stepOne = String.valueOf(time);
+        stepOne = stepOne.substring(6);
+        //eventOutput("Mouse pressed at " + time,e);
+        System.out.println("Mouse pressed at " + time);
+        try {
+            previous = timeKeeper(stepOne, previous);
+        } catch (IOException ex) {
+            ex.printStackTrace();
+        }
     }
 
     public void mouseReleased(MouseEvent e) {
-        System.out.println("released");
+
     }
 
     public void mouseEntered(MouseEvent e) {
