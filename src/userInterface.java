@@ -14,12 +14,12 @@ import java.awt.event.WindowAdapter;
 public class userInterface extends JPanel implements MouseListener {
     static String previous = "000000";
     BlankArea blankArea;
+    JFrame myFrame = new JFrame("Black Box");
 
-    public void runner() throws IOException {
-        JFrame myFrame = new JFrame("Black Box");
+    public void runner() {
+
         myFrame.setSize(300, 300);
         myFrame.setVisible(true);
-        JPanel panel = new JPanel();
         JButton startButton = new JButton("Start Metronome");
         startButton.setBounds(50, 150, 100, 30);
 
@@ -29,7 +29,7 @@ public class userInterface extends JPanel implements MouseListener {
 
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Metronome.play(100, 0, 400, 100);
+                    Metronome.play(60, 0, 400, 100);
                     startButton.removeActionListener(this);
                     myFrame.remove(startButton);
                     JComponent newContentPane = new userInterface();
@@ -42,7 +42,10 @@ public class userInterface extends JPanel implements MouseListener {
                 } catch (LineUnavailableException ex) {
                     ex.printStackTrace();
                 }
+
             }
+
+
         });
 
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
@@ -56,7 +59,8 @@ public class userInterface extends JPanel implements MouseListener {
                     fnfe.printStackTrace();
                 }
                 System.out.println("bye bye");
-                System.exit(0);
+
+
             }
         });
 
@@ -99,10 +103,14 @@ public class userInterface extends JPanel implements MouseListener {
         } catch (IOException ex) {
             ex.printStackTrace();
         }
+        if(Metronome.getCount()>= Metronome.getBeat()){
+            myFrame.dispose();
+        }
+
+
     }
 
     public void mouseReleased(MouseEvent e) {
-
     }
 
     public void mouseEntered(MouseEvent e) {
