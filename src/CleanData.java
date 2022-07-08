@@ -3,7 +3,7 @@ import java.io.FileNotFoundException;
 import java.io.PrintWriter;
 import java.util.Scanner;
 
-public class cleanData {
+public class CleanData {
     public static void sort() throws FileNotFoundException {
         File fileName = new File("metlogs.txt");
         File file2 = new File("logs.txt");

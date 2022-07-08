@@ -11,7 +11,7 @@ import java.io.PrintWriter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
 
-public class userInterface extends JPanel implements MouseListener {
+public class UserInterface extends JPanel implements MouseListener {
     static String previous = "000000";
     BlankArea blankArea;
     JFrame myFrame = new JFrame("Black Box");
@@ -32,7 +32,7 @@ public class userInterface extends JPanel implements MouseListener {
                     Metronome.play(60, 0, 400, 100);
                     startButton.removeActionListener(this);
                     myFrame.remove(startButton);
-                    JComponent newContentPane = new userInterface();
+                    JComponent newContentPane = new UserInterface();
                     newContentPane.setOpaque(true); //content panes must be opaque
                     myFrame.setContentPane(newContentPane);
                     myFrame.pack();
@@ -54,7 +54,7 @@ public class userInterface extends JPanel implements MouseListener {
             public void windowClosing(WindowEvent event) {
                 myFrame.dispose();
                 try {
-                    cleanData.sort();
+                    CleanData.sort();
                 } catch (FileNotFoundException fnfe) {
                     fnfe.printStackTrace();
                 }
@@ -67,7 +67,7 @@ public class userInterface extends JPanel implements MouseListener {
 
     }
 
-    public userInterface() {
+    public UserInterface() {
         blankArea = new BlankArea(Color.YELLOW);
         blankArea.addMouseListener(this);
         addMouseListener(this);

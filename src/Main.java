@@ -1,17 +1,11 @@
 import java.io.*;
 
-
-
-public class main{
+public class Main{
 
     public static void main(String[] args) throws IOException {
-        userInterface app = new userInterface();
+        UserInterface app = new UserInterface();
         app.runner();
 
 
     }
-
-
-
-
 }
