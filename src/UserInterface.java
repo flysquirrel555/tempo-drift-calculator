@@ -10,12 +10,15 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 
 public class UserInterface extends JPanel implements MouseListener {
     static String previous = "000000";
     BlankArea blankArea;
     JFrame myFrame = new JFrame("Black Box");
-
+    private ScheduledExecutorService executorService;
     public void runner() {
 
         myFrame.setSize(300, 300);
@@ -24,6 +27,7 @@ public class UserInterface extends JPanel implements MouseListener {
         startButton.setBounds(50, 150, 100, 30);
 
         myFrame.add(startButton);
+        executorService = Executors.newSingleThreadScheduledExecutor();
 
         startButton.addActionListener(new ActionListener() {
 
@@ -37,6 +41,10 @@ public class UserInterface extends JPanel implements MouseListener {
                     myFrame.setContentPane(newContentPane);
                     myFrame.pack();
                     myFrame.repaint();
+                    executorService.schedule(() -> {
+                        myFrame.dispatchEvent(new WindowEvent(myFrame, WindowEvent.WINDOW_CLOSING));
+                    }, 1, TimeUnit.MINUTES);
+
 
 
                 } catch (LineUnavailableException ex) {
