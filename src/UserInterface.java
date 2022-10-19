@@ -16,7 +16,7 @@ import java.util.concurrent.TimeUnit;
 
 public class UserInterface extends JPanel implements MouseListener {
     static String previous = "000000";
-    BlankArea blankArea
+    BlankArea blankArea;
     JFrame myFrame = new JFrame("Black Box");
     private ScheduledExecutorService executorService;
     public void runner() {

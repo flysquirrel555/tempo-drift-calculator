@@ -8,7 +8,7 @@ import java.util.concurrent.*;
 public class Metronome {
     public static long currentTime;
     static String previous = "999999999";
-    static int count = 0
+    static int count = 0;
     static int beat;
 
     public static void main(String[] args) {
