@@ -41,9 +41,14 @@ public class UserInterface extends JPanel implements MouseListener {
                     myFrame.setContentPane(newContentPane);
                     myFrame.pack();
                     myFrame.repaint();
+
+
                     executorService.schedule(() -> {
                         myFrame.dispatchEvent(new WindowEvent(myFrame, WindowEvent.WINDOW_CLOSING));
+                        Runtime.getRuntime().exit(0);
+                        //System.exit(0);
                     }, 1, TimeUnit.MINUTES);
+                    
 
 
 
@@ -67,6 +72,7 @@ public class UserInterface extends JPanel implements MouseListener {
                     fnfe.printStackTrace();
                 }
                 System.out.println("bye bye");
+                //System.exit(0);
 
 
             }

@@ -8,7 +8,7 @@ import java.util.concurrent.*;
 public class Metronome {
     public static long currentTime;
     static String previous = "999999999";
-    static int count = 50;
+    static int count = 0;
     static int beat;
 
     public static void main(String[] args) {
@@ -35,7 +35,9 @@ public class Metronome {
         return executorService.scheduleAtFixedRate(() -> {
             try {
                 long diff = System.currentTimeMillis();
-                diff += tone.play();
+                if (count < 10) {
+                    diff += tone.play();
+                }
                 currentTime = System.currentTimeMillis() - (System.currentTimeMillis() - diff);
                 String stepOne = String.valueOf(diff);
                 stepOne = stepOne.substring(6);
