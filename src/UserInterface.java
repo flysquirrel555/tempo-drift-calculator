@@ -10,6 +10,7 @@ import java.io.IOException;
 import java.io.PrintWriter;
 import java.awt.event.WindowEvent;
 import java.awt.event.WindowAdapter;
+import java.util.ArrayList;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -19,6 +20,11 @@ public class UserInterface extends JPanel implements MouseListener {
     BlankArea blankArea;
     JFrame myFrame = new JFrame("Black Box");
     private ScheduledExecutorService executorService;
+    ArrayList<String> clickTime = new ArrayList<String>();
+    ArrayList<String> metTime = new ArrayList<String>();
+
+
+
     public void runner() {
 
         myFrame.setSize(300, 300);
@@ -45,11 +51,16 @@ public class UserInterface extends JPanel implements MouseListener {
 
                     executorService.schedule(() -> {
                         myFrame.dispatchEvent(new WindowEvent(myFrame, WindowEvent.WINDOW_CLOSING));
-                        Runtime.getRuntime().exit(0);
-                        //System.exit(0);
-                    }, 1, TimeUnit.MINUTES);
-                    
+//                        try {
+//                            writeToCSV();
+//                            System.exit(0);
+//                        } catch (FileNotFoundException ex) {
+//                            throw new RuntimeException(ex);
+//                        }
 
+
+                        //}, 1, TimeUnit.MINUTES);
+                    }, 15, TimeUnit.SECONDS);
 
 
                 } catch (LineUnavailableException ex) {
@@ -64,19 +75,30 @@ public class UserInterface extends JPanel implements MouseListener {
         myFrame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         myFrame.addWindowListener(new WindowAdapter() {
             @Override
-            public void windowClosing(WindowEvent event) {
-                myFrame.dispose();
+            public void windowClosing(WindowEvent e) {
                 try {
-                    CleanData.sort();
-                } catch (FileNotFoundException fnfe) {
-                    fnfe.printStackTrace();
+                    writeToCSV();
+                    System.exit(0);
+                } catch (FileNotFoundException ex) {
+                    throw new RuntimeException(ex);
                 }
-                System.out.println("bye bye");
-                //System.exit(0);
-
-
             }
         });
+//        myFrame.addWindowListener(new WindowAdapter() {
+//            @Override
+//            public void windowClosing(WindowEvent event) {
+//                myFrame.dispose();
+//                try {
+//                    CleanData.sort();
+//                } catch (FileNotFoundException fnfe) {
+//                    fnfe.printStackTrace();
+//                }
+//                System.out.println("bye bye");
+//                //System.exit(0);
+//
+//
+//            }
+//        });
 
 
     }
@@ -93,11 +115,11 @@ public class UserInterface extends JPanel implements MouseListener {
 
     }
 
-    public String timeKeeper(String time, String previous) throws FileNotFoundException {
-        previous = previous + "\n" + time;
-        writeFile(previous);
-        return previous;
-    }
+//    public String timeKeeper(String time, String previous) throws FileNotFoundException {
+//        previous = previous + "\n" + time;
+//        writeFile(previous);
+//        return previous;
+//    }
 
     public void writeFile(String time) throws FileNotFoundException {
         PrintWriter outFile = new PrintWriter("logs.txt");
@@ -107,19 +129,23 @@ public class UserInterface extends JPanel implements MouseListener {
     }
 
     public void mousePressed(MouseEvent e) {
+
         long time = System.currentTimeMillis();
-        String stepOne = String.valueOf(time);
-        stepOne = stepOne.substring(6);
+        clickTime.add(String.valueOf(time));
+        metTime.add(Metronome.getCurrentTime());
+//        String stepOne = String.valueOf(time);
+//        stepOne = stepOne.substring(6);
         //eventOutput("Mouse pressed at " + time,e);
         System.out.println("Mouse pressed at " + time);
-        try {
-            previous = timeKeeper(stepOne, previous);
-        } catch (IOException ex) {
-            ex.printStackTrace();
-        }
-        if(Metronome.getCount()>= Metronome.getBeat()){
-            myFrame.dispose();
-        }
+        System.out.println("last met was " + Metronome.getCurrentTime()+"\n");
+//        try {
+//            previous = timeKeeper(stepOne, previous);
+//        } catch (IOException ex) {
+//            ex.printStackTrace();
+//        }
+//        if (Metronome.getCount() >= Metronome.getBeat()) {
+//            myFrame.dispose();
+//        }
 
 
     }
@@ -133,5 +159,18 @@ public class UserInterface extends JPanel implements MouseListener {
 
     public void mouseExited(MouseEvent e) {
 
+    }
+
+    public void writeToCSV() throws FileNotFoundException {
+        System.out.println("Reached");
+        for(int i = 0; i < clickTime.size(); i++){
+            System.out.println(clickTime.get(i));
+        }
+        PrintWriter outFile = new PrintWriter("logs.csv");
+        outFile.println("Click Time, Metronome Time");
+        for (int i = 0; i < clickTime.size(); i++) {
+            outFile.println(clickTime.get(i) + "," + metTime.get(i));
+        }
+        outFile.close();
     }
 }

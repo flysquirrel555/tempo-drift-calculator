@@ -10,6 +10,7 @@ public class Metronome {
     static String previous = "999999999";
     static int count = 0;
     static int beat;
+    public static long diff;
 
     public static void main(String[] args) {
 
@@ -34,19 +35,20 @@ public class Metronome {
         SoundUtils.Tone tone = SoundUtils.Tone.make(hz, msecs);
         return executorService.scheduleAtFixedRate(() -> {
             try {
-                long diff = System.currentTimeMillis();
+                diff = System.currentTimeMillis();
                 if (count < 10) {
                     diff += tone.play();
                 }
                 currentTime = System.currentTimeMillis() - (System.currentTimeMillis() - diff);
-                String stepOne = String.valueOf(diff);
-                stepOne = stepOne.substring(6);
+
+//                String stepOne = String.valueOf(diff);
+//                stepOne = stepOne.substring(6);
                 count++;
-                try {
-                    previous = timeKeeper(stepOne, previous);
-                } catch (IOException ex) {
-                    ex.printStackTrace();
-                }
+//                try {
+//                    previous = timeKeeper(stepOne, previous);
+//                } catch (IOException ex) {
+//                    ex.printStackTrace();
+//                }
             } catch (LineUnavailableException e) {
                 e.printStackTrace();
             }
@@ -75,5 +77,9 @@ public class Metronome {
     public static int getCount() {
         System.out.println(count);
         return count;
+    }
+
+    public static String getCurrentTime() {
+        return String.valueOf(diff);
     }
 }
