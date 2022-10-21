@@ -20,8 +20,8 @@ public class UserInterface extends JPanel implements MouseListener {
     BlankArea blankArea;
     JFrame myFrame = new JFrame("Black Box");
     private ScheduledExecutorService executorService;
-    ArrayList<String> clickTime = new ArrayList<String>();
-    ArrayList<String> metTime = new ArrayList<String>();
+    static ArrayList<String> clickTime = new ArrayList<String>();
+    static ArrayList<String> metTime = new ArrayList<String>();
 
 
 
@@ -129,7 +129,7 @@ public class UserInterface extends JPanel implements MouseListener {
     }
 
     public void mousePressed(MouseEvent e) {
-
+//clickTime.add("hello sir");
         long time = System.currentTimeMillis();
         clickTime.add(String.valueOf(time));
         metTime.add(Metronome.getCurrentTime());
@@ -163,9 +163,9 @@ public class UserInterface extends JPanel implements MouseListener {
 
     public void writeToCSV() throws FileNotFoundException {
         System.out.println("Reached");
-        for(int i = 0; i < clickTime.size(); i++){
-            System.out.println(clickTime.get(i));
-        }
+//        for(int i = 0; i < clickTime.size(); i++){
+//            System.out.println(clickTime.get(i));
+//        }
         PrintWriter outFile = new PrintWriter("logs.csv");
         outFile.println("Click Time, Metronome Time");
         for (int i = 0; i < clickTime.size(); i++) {
