@@ -36,7 +36,7 @@ public class UserInterface extends JPanel implements MouseListener {
 
             public void actionPerformed(ActionEvent e) {
                 try {
-                    Metronome.play(60, 0, 400, 100);
+                    Metronome.play(120, 400, 50);
                     startButton.removeActionListener(this);
                     myFrame.remove(startButton);
                     JComponent newContentPane = new UserInterface();
@@ -48,7 +48,7 @@ public class UserInterface extends JPanel implements MouseListener {
 
                     executorService.schedule(() -> {
                         myFrame.dispatchEvent(new WindowEvent(myFrame, WindowEvent.WINDOW_CLOSING));
-                    }, 15, TimeUnit.SECONDS);
+                    }, 60, TimeUnit.SECONDS);
 
 
                 } catch (LineUnavailableException ex) {
